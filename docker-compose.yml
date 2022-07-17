@@ -1,31 +1,27 @@
 services:
   server:
-    image: phonebook-backend-dev
+    image: phonebook-backend-prod
     build:
       context: ./backend/
-      dockerfile: dev.Dockerfile
+      dockerfile: Dockerfile
     environment:
       - MONGODB_URI=MONGOURL
       - PORT=3001
     volumes:
       - ./backend/:/usr/src/app
-    container_name: phonebook-server-dev
+    container_name: phonebook-server-prod
   app:
-    image: phonebook-frontend-dev
+    image: phonebook-frontend-prod
     build:
       context: ./frontend/
-      dockerfile: dev.Dockerfile
-    environment:
-      - WATCHPACK_POLLING=true
-      - REACT_APP_BACKEND_URL=/api/
-      - WDS_SOCKET_PORT=0
+      dockerfile: Dockerfile
     volumes:
       - ./frontend/:/usr/src/app
-    container_name: phonebook-frontend-dev
+    container_name: phonebook-frontend-prod
   nginx:
     image: nginx:1.20.1
     volumes:
-      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - 8080:80
     container_name: phonebook-reverse-proxy
